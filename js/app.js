@@ -244,27 +244,38 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 // ==========================
-// GEOLOCALIZACIÓN HTML5
-// ==========================
-// Este bloque intenta mostrar tu ubicación usando el GPS del navegador
-(function(){
-  // Crear contenedor flotante para mostrar la ubicación
-  let geoBox = document.getElementById('geo-box');
-  if (!geoBox) {
-    geoBox = document.createElement('div');
-    geoBox.id = 'geo-box';
-    document.body.appendChild(geoBox);
+
+// Integración de geolocalización con el mapa
+document.addEventListener('DOMContentLoaded', function() {
+  // Inicializar el mapa en una ubicación por defecto
+  var map = L.map('map').setView([51.505, -0.09], 13);
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  }).addTo(map);
+
+  var marker, circle;
+
+  function showLocationOnMap(lat, lon) {
+    map.setView([lat, lon], 15);
+    if (marker) map.removeLayer(marker);
+    if (circle) map.removeLayer(circle);
+    marker = L.marker([lat, lon]).addTo(map);
+    circle = L.circle([lat, lon], {
+      color: 'blue',
+      fillColor: '#3fa',
+      fillOpacity: 0.3,
+      radius: 200
+    }).addTo(map);
+    marker.bindPopup("<b>¡Estás aquí!</b><br>Latitud: " + lat.toFixed(6) + "<br>Longitud: " + lon.toFixed(6)).openPopup();
   }
 
-  function showLocation(lat, lon) {
-    geoBox.innerHTML = `<strong>Tu ubicación:</strong><br>Latitud: <span class="geo-lat">${lat.toFixed(6)}</span><br>Longitud: <span class="geo-lon">${lon.toFixed(6)}</span>`;
-    geoBox.style.display = 'block';
-    geoBox.style.opacity = '1';
-  }
-  function showError(msg) {
-    geoBox.innerHTML = `<strong>Geolocalización:</strong><br><span class="geo-error">${msg}</span>`;
-    geoBox.style.display = 'block';
-    geoBox.style.opacity = '1';
+  function showErrorOnMap(msg) {
+    map.setView([51.505, -0.09], 13);
+    L.popup()
+      .setLatLng([51.505, -0.09])
+      .setContent("Error de geolocalización: " + msg)
+      .openOn(map);
   }
 
   if ("geolocation" in navigator) {
@@ -272,16 +283,18 @@ document.addEventListener("DOMContentLoaded", () => {
       function (position) {
         const lat = position.coords.latitude;
         const lon = position.coords.longitude;
-        showLocation(lat, lon);
+        showLocationOnMap(lat, lon);
         console.log("Latitud:", lat);
         console.log("Longitud:", lon);
       },
       function (error) {
-        showError("No se pudo obtener la ubicación: " + error.message);
+        showErrorOnMap("No se pudo obtener la ubicación: " + error.message);
         console.warn("Error de geolocalización:", error.message);
       }
     );
   } else {
-    showError("¡Lo sentimos mucho! Tu navegador no soporta geolocalización.");
+    showErrorOnMap("¡Lo sentimos mucho! Tu navegador no soporta geolocalización.");
   }
-})();
+});
+
+
