@@ -51,6 +51,7 @@ foreach ($productos_cuencos as $prod) {
         <ul>
             <li><a href="inicio.php">Inicio</a></li>
             <li><a href="registro.php">Registro</a></li>
+            <li><a href="contacto.php">Contacto</a></li>
             <?php
             // Mostrar enlace al panel de control solo si el usuario es admin
             if (!empty($_SESSION['usuario'])) {
