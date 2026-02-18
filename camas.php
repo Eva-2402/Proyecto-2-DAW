@@ -53,6 +53,7 @@ foreach ($productos_camas as $prod) {
         <ul>
             <li><a href="inicio.php">Inicio</a></li>
             <li><a href="registro.php">Registro</a></li>
+            <li><a href="contacto.php">Contacto</a></li>
             <?php
             if (!empty($_SESSION['usuario'])) {
                 require_once __DIR__ . '/db.php';
