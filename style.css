@@ -1004,6 +1004,11 @@ body.cart-open #cart_drawer { transform: translateX(0); }
     min-width: 320px;
     margin: 0;
 }
+
+/* Estilo mapa */
+#map { height: 180px; }
+
+
 @media (max-width: 600px) {
     .carousel, .carousel-track, .producto-item {
         width: 98vw;
@@ -1191,3 +1196,4 @@ body.cart-open #cart_drawer { transform: translateX(0); }
 #geo-box .geo-error {
   color: #E74C3C;
 }
+
