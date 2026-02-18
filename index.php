@@ -80,6 +80,7 @@ foreach ($productos_destacados as $prod) {
             <li><a href="carrito.php">Carrito</a></li>
             <li><a href="listaDeseos.php">Lista de Deseos</a></li>
             <li><a href="registro.php">Registro</a></li>
+            <li><a href="contacto.php">Contacto</a></li>
             <?php
             // Si hay un usuario logueado, comprobamos si es admin para mostrar el panel de control
             if (!empty($_SESSION['usuario'])) {
